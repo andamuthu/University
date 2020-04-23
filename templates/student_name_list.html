@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body>
+    {%if message  %}
+        {{ message }}
+    {% endif %}
+
+    {% if request.user.is_authenticated %}
+        <h3> Welcome {{ request.user }}
+        <a href="/students_details/logout/">Logout</a>&nbsp;&nbsp;
+        <a href="/students_details/">Home</a> </h3>
+
+        <table border="1">
+            <tr>
+                <th>Student Name</th> <th>Tamil</th> <th>English</th> <th>Maths</th> <th>Science</th> <th>Social Science</th> <th>Total</th><th>User</th><th>Delete</th>
+            </tr>
+        {% for details in students_list %}
+            <tr>
+                <td align="center"> <a href="/students_details/edit_marks/{{ details.pk }}"> {{details.student_name  }}</a> </td>
+                <td align="center"> {{details.tamil  }}</td>
+                <td align="center"> {{details.english  }}</td>
+                <td align="center"> {{details.maths  }}</td>
+                <td align="center"> {{details.science  }}</td>
+                <td align="center"> {{details.socialscience  }}</td>
+                <td align="center"> {{details.total_marks  }}</td>
+                <td align="center"> {{details.created_by  }}</td>
+                <td align="center"> <a href="/students_details/delete_student/{{ details.pk }}"> [x]</a> </td>
+            </tr>
+        {% endfor %}
+        <h3><a href="/students_details/students_marks">Add more Students</a> </h3>
+        </table>
+    {% else %}
+        Please login
+    {% endif %}
+</body>
+</html>
+

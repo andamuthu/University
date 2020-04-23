@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form action="/students_details/signup/" method="post">{% csrf_token %}
+    {{ signup_form }}
+    <input type="submit" value="Register" >
+</form>
+
+{%if message %}
+    {{ message }}
+{% endif %}
+
+<br>
+<a href="/students_details/login/">Login</a>
+<a href="/students_details/">Back to Home</a>
+</body>
+</html>
+
