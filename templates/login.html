@@ -3,8 +3,8 @@
 <body>
 
 <form action="/students_details/login/" method="post">{% csrf_token %}
-    {{ login_form }}
-    <input type="submit" value="Login" >
+    {{ login_form.as_p }}
+    <input type="submit" value="Login">
 </form>
 
 {%if message %}
@@ -12,7 +12,7 @@
 {% endif %}
 
 <br>
-<a href="/students_details/signup">Signup</a>
+<a href="/students_details/signup">Signup</a> &nbsp;&nbsp;
 <a href="/students_details/">Back to Home</a>
 </body>
 </html>

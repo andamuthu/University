@@ -9,10 +9,8 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
 from django_currentuser.middleware import (get_current_user, get_current_authenticated_user)
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 
-# Create your views here.
 def students_list():
     return StudentsMarks.objects.filter(created_by=get_current_user())
 
@@ -30,16 +28,22 @@ def signup(request):
     if request.method == 'GET':
         return render(request, 'signup.html', {'signup_form': SignupForm(), })
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
             user_name = form.cleaned_data['user_name'].strip()
             password = form.cleaned_data['password'].strip()
+            confirm_password = form.cleaned_data['confirm_password'].strip()
             user = User.objects.create(username=user_name)
-            user.set_password(password)
-            user.save()
-            message = 'User name " {} " is registred successfully'.format(user_name)
-            form = SignupForm()
+            if password != confirm_password:
+                message = 'password and confirm password are not matched'
+                return render(request, "signup.html",
+                              {'message': message, 'signup_form': form})
+            else:
+                user.set_password(password)
+                user.save()
+                message = 'User name " {} " is registred successfully'.format(user_name)
+                form = SignupForm()
         else:
             message = 'Please correct below errors'
         return render(request, "signup.html",
@@ -50,7 +54,7 @@ def login_view(request):
     if request.method == 'GET':
         return render(request, 'login.html', {'login_form': LoginForm(), })
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
             user_name = form.cleaned_data['user_name'].strip()
@@ -79,7 +83,7 @@ def students_marks(request):
     if request.method == 'GET':
         return render(request, 'dashboard.html', {'dashboard_form': DashboardForm()})
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
         form = DashboardForm(request.POST)
         if form.is_valid():
             student_name = form.cleaned_data['student_name'].strip()
@@ -106,7 +110,7 @@ def edit_marks(request, pk):
         return render(request, 'edit_marks.html',
                       {'edit_student': edit_student, 'editform': form})
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
         form = EditForm(request.POST)
         if form.is_valid():
             tamil = form.cleaned_data['tamil']

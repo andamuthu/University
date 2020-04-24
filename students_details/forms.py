@@ -7,6 +7,7 @@ from django.db import models
 class SignupForm(forms.Form):
     user_name = forms.CharField(required=True, label='Enter Username')
     password = forms.CharField(max_length=30, widget=forms.PasswordInput,label='Enter Password')
+    confirm_password = forms.CharField(max_length=30, widget=forms.PasswordInput, label='Re-enter Password')
 
     def clean(self):
         cleaned_data = super(SignupForm, self).clean()
@@ -24,9 +25,11 @@ class SignupForm(forms.Form):
 
     def clean_password(self):
         password = self.cleaned_data['password']
-        if len(password) < 4:
+
+        if len(password) < 5:
             raise forms.ValidationError("password is too short")
         return password
+
 
 class LoginForm(forms.Form):
     user_name = forms.CharField(required=True, label='Enter Username')

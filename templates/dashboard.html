@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html>
 <body>
+
     {%if message  %}
         {{ message }}
     {% endif %}
 
     {% if request.user.is_authenticated %}
-        <h3> Welcome {{ request.user}}
-        <a href="/students_details/logout/">Logout</a>&nbsp;&nbsp;
-        <a href="/students_details/">Home</a> </h3>
+        <h3>
+            Welcome {{ request.user}} &nbsp;&nbsp;
+            <a href="/students_details/logout/">Logout</a>&nbsp;&nbsp;&nbsp;
+            <a href="/students_details/">Home</a>&nbsp;&nbsp;
+             Last logined : {{ request.user.last_login }}
+        </h3>
 
         <form action="/students_details/students_marks/" method="post">{% csrf_token %}
             <table style="text-align: left">
